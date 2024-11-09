@@ -4,8 +4,8 @@
 #include <algorithm>
 #include <cstdio>
 #include <cstring>
-#include <iostream>
 #include <string>
+#include <utility>
 #include <vector>
 
 namespace ac_scanner {
@@ -25,8 +25,6 @@ Result<Config> parse_args(int argc, char* argv[]) {
 
   for (size_t i = 0; i < args.size(); ++i) {
     const std::string_view& arg = args[i];
-
-    std::cout << "[" << i << "] " << arg << '\n';
 
     if (arg == "-v" || arg == "--version") {
       config.version = 1;
@@ -65,9 +63,33 @@ Result<Config> parse_args(int argc, char* argv[]) {
   }
 
   if (config.ip_address[0] == '\0') {
-    std::strncpy(config.ip_address, "localhost", 10);
+    std::strncpy(config.ip_address, "127.0.0.1", std::strlen("127.0.0.1") + 1);
   }
 
   return Result<Config>(config);
+}
+
+std::pair<uint16_t, uint16_t> get_port_range(Config config) {
+  uint16_t start_port = 0;
+  uint16_t end_port = 0;
+
+  if (config.dynamic_ports) {
+    start_port = MIN_DYNAMIC_PORT;
+    end_port = MAX_DYNAMIC_PORT;
+  }
+
+  if (config.user_ports) {
+    start_port = MIN_USER_PORT;
+    if (!end_port)
+      end_port = MAX_USER_PORT;
+  }
+
+  if (config.system_ports) {
+    start_port = MIN_SYSTEM_PORT;
+    if (!end_port)
+      end_port = MAX_SYSTEM_PORT;
+  }
+
+  return std::make_pair(start_port, end_port);
 }
 }  // namespace ac_scanner
