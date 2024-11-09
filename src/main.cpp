@@ -9,7 +9,6 @@
 #include <vector>
 
 // TODO: Generalise the scanner so it works with more than just linux
-// TODO: Figure out why it only works on localhost.
 
 void print_version();
 void print_help(std::optional<std::string> error = std::nullopt);

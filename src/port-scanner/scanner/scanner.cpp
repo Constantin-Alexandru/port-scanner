@@ -1,6 +1,7 @@
 // Copyright (c) 2024 Alexandru Constantin
 
 #include <arpa/inet.h>
+#include <fcntl.h>
 #include <netinet/in.h>
 #include <scanner/scanner.h>
 #include <sys/socket.h>
@@ -39,6 +40,19 @@ bool check_socket(char ip_address[], uint16_t port) {
 
   if (sockfd < 0) {
     std::cerr << "Unable to connect to socket: " << strerror(errno) << '\n';
+    close(sockfd);
+    return false;
+  }
+
+  int flags = fcntl(sockfd, F_GETFL, 0);
+  if (flags < 0) {
+    std::cerr << "Failed to get socket flags\n";
+    close(sockfd);
+    return false;
+  }
+
+  if (fcntl(sockfd, F_SETFL, flags | O_NONBLOCK) < 0) {
+    std::cerr << "Failed to set non-blocking mode\n";
     close(sockfd);
     return false;
   }
