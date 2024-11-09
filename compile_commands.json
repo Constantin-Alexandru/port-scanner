@@ -1,0 +1,8 @@
+[
+{
+  "directory": "/home/therealinfinite/Projects/port-scanner/build",
+  "command": "/usr/bin/c++  -I/home/therealinfinite/Projects/port-scanner/include -I/home/therealinfinite/Projects/port-scanner/include/external -I/home/therealinfinite/Projects/port-scanner/include/port-scanner -std=gnu++20 -Wall -Wextra -Werror -Wpedantic -O3 -pthread -o CMakeFiles/ac_scanner.dir/src/main.cpp.o -c /home/therealinfinite/Projects/port-scanner/src/main.cpp",
+  "file": "/home/therealinfinite/Projects/port-scanner/src/main.cpp",
+  "output": "CMakeFiles/ac_scanner.dir/src/main.cpp.o"
+}
+]
